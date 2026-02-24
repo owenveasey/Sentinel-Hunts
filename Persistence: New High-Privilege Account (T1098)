@@ -1,0 +1,7 @@
+AuditLogs
+| where OperationName == "Add member to role"
+| where TargetResources[0].displayName in ("Global Administrator", "Privileged Role Administrator", "Security Administrator")
+| extend Initiator = tostring(InitiatedBy.user.userPrincipalName)
+| extend TargetUser = tostring(TargetResources[0].userPrincipalName)
+| project TimeGenerated, OperationName, Initiator, TargetUser, Result
+| sort by TimeGenerated desc
