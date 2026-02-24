@@ -1,0 +1,6 @@
+SecurityEvent
+| where EventID == 4688 // Process Creation
+| where ProcessName has "powershell.exe"
+| where CommandLine has_any ("-enc", "-encodedcommand", "-e ")
+| project TimeGenerated, Computer, Account, CommandLine, ParentProcessName
+| sort by TimeGenerated desc
