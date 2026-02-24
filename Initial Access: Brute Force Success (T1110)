@@ -1,0 +1,8 @@
+SigninLogs
+| summarize 
+    Failures = countif(ResultType != 0), 
+    Success = countif(ResultType == 0) 
+    by IPAddress, UserPrincipalName
+| where Failures > 10 and Success > 0
+| project UserPrincipalName, IPAddress, Failures, Success
+| sort by Failures desc
